@@ -1,3 +1,4 @@
+
 {% extends "base.html" %}
 
 {% block content %}
@@ -18,7 +19,8 @@
 
     <p>
         <label>Item name<br>
-            <input type="text" name="name" placeholder="Enter item name" required>
+            <input type="text" name="name"
+                   placeholder="Enter item name" required>
         </label>
     </p>
 
@@ -41,7 +43,8 @@
     <p>
         <label>Description<br>
             <textarea name="description" rows="3"
-                placeholder="Describe the item..." required></textarea>
+                      placeholder="Describe the item..."
+                      required></textarea>
         </label>
     </p>
 
@@ -70,7 +73,7 @@
     <p>
         <label>Your phone or email<br>
             <input type="text" name="contact"
-                placeholder="Enter contact details" required>
+                   placeholder="Enter contact details" required>
         </label>
     </p>
 
@@ -108,18 +111,31 @@ reportForm.addEventListener("submit", async function(e) {
             body: new FormData(reportForm)
         });
 
-        const data = await response.json();
+        const responseText = await response.text();
+
+        console.log("HTTP Status:", response.status);
+        console.log("Server Response:", responseText);
+
+        let data;
+
+        try {
+            data = JSON.parse(responseText);
+        } catch (error) {
+            throw new Error(
+                "Server returned an invalid response. Check the Flask terminal and browser Console."
+            );
+        }
 
         if (response.ok) {
 
-            message.textContent = "Item reported successfully!";
+            message.textContent = data.message || "Item reported successfully!";
             message.style.color = "green";
 
             reportForm.reset();
 
             setTimeout(function() {
                 window.location.href = "/";
-            }, 1200);
+            }, 1500);
 
         } else {
 
@@ -132,7 +148,7 @@ reportForm.addEventListener("submit", async function(e) {
 
         console.error("Submission error:", error);
 
-        message.textContent = "Server connection failed. Please try again.";
+        message.textContent = error.message;
         message.style.color = "red";
 
     } finally {
