@@ -2,7 +2,7 @@ import re
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 
-MIN_SCORE = 20  # hide matches below this percentage
+MIN_SCORE = 40  # hide matches below this percentage
 
 # Different words for the same thing become one standard word
 SYNONYMS = {
@@ -83,9 +83,23 @@ if __name__ == "__main__":
          "description": "blue scientific calculator", "location": "Main Block"},
         {"id": 3, "type": "found", "name": "Blue ID card", "category": "ID Card",
          "description": "student id card with a photo", "location": "Canteen"},
+         {"id": 4, "type": "found", "name": "Wireless earbuds", "category": "Electronics",
+         "description": "white earbuds in a small case", "location": "Canteen"},
+        {"id": 5, "type": "found", "name": "Black backpack", "category": "Bag",
+         "description": "black bag with a laptop inside", "location": "Hostel"},
+        {"id": 6, "type": "found", "name": "Steel tumbler", "category": "Bottle",
+         "description": "silver bottle with a dent", "location": "Ground"},
     ]
-    lost = {"id": 10, "type": "lost", "name": "Black water bottle", "category": "Bottle",
-            "description": "black steel bottle lost near the library", "location": "Library"}
+    lost_items = [
+        {"id": 10, "type": "lost", "name": "Black water bottle", "category": "Bottle",
+         "description": "black steel bottle lost near the library", "location": "Library"},
+        {"id": 11, "type": "lost", "name": "AirPods", "category": "Electronics",
+         "description": "white airpods case", "location": "Canteen"},
+        {"id": 12, "type": "lost", "name": "School bag", "category": "Bag",
+         "description": "black backpack with books", "location": "Main Block"},
+    ]
 
-    for match in find_matches(lost, items):
-        print(match["item"]["name"], "->", match["score"], "%", "|", match["reason"])
+    for lost in lost_items:
+        print("\nLOST:", lost["name"])
+        for match in find_matches(lost, items):
+            print("  ", match["item"]["name"], "->", match["score"], "%", "|", match["reason"])
