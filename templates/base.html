@@ -10,12 +10,11 @@
   <header>
     <a class="brand" href="/">🎒 Campus Lost &amp; Found</a>
     <nav>
-     <a href="/">Home</a>
-<a href="/report-page">Report Item</a>
+      <a href="/">Home</a>
+      <a href="/report-page">Report Item</a>
     </nav>
   </header>
   <main>
-    {% for m in get_flashed_messages() %}<p class="flash">{{ m }}</p>{% endfor %}
     {% block content %}{% endblock %}
   </main>
 </body>
