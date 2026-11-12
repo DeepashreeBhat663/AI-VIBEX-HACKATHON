@@ -2,25 +2,31 @@
 
 {% block content %}
 
-<h2>Matching Results</h2>
+<h2>✅ Report Submitted Successfully!</h2>
 
 {% if matches %}
 
-<p>✅ Possible matches found!</p>
+<h3>Possible Matches Found</h3>
 
 {% for match in matches %}
 
-<div class="match">
+<div class="card">
 
-    <h3>{{ match.title }}</h3>
+    <h3>{{ match.item.name }}</h3>
 
     <p>
-        <strong>Location:</strong>
-        {{ match.location }}
+        <b>Match Score:</b>
+        {{ match.score }}%
     </p>
 
     <p>
-        {{ match.description }}
+        <b>Reason:</b>
+        {{ match.reason }}
+    </p>
+
+    <p>
+        <b>Location:</b>
+        {{ match.item.location }}
     </p>
 
 </div>
@@ -33,6 +39,8 @@
 
 {% endif %}
 
-<a href="/">Back to Home</a>
+<br>
+
+<a href="/">Back Home</a>
 
 {% endblock %}

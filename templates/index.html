@@ -1,73 +1,39 @@
 {% extends "base.html" %}
+
 {% block content %}
-<h2>Lost &amp; Found</h2>
 
-<div class="toolbar">
-  <input id="searchBox" placeholder="Search by name, place or description...">
-  <button class="light" onclick="setFilter('all')">All</button>
-  <button class="light" onclick="setFilter('lost')">Lost</button>
-  <button class="light" onclick="setFilter('found')">Found</button>
-</div>
+<h2>Reported Items</h2>
 
-{% for i in items %}
-<div class="card" data-type="{{ i.type }}"
-     data-text="{{ (i.name ~ ' ' ~ i.description ~ ' ' ~ i.location ~ ' ' ~ i.category)|lower }}">
-  {% if i.photo %}<img src="/uploads/{{ i.photo }}" alt="item photo"><br>{% endif %}
-  <p>
-    <span class="tag {{ i.type }}">{{ i.type|capitalize }}</span>
-    <b>{{ i.name }}</b> · {{ i.category }}
-  </p>
-  <p>📍 {{ i.location }} · 📅 {{ i.date }}</p>
-  <p>{{ i.description }}</p>
-  <button onclick="showMatches({{ i.id }})">Find matches</button>
-  <div id="matches-{{ i.id }}"></div>
-</div>
+{% if items %}
+
+    {% for item in items %}
+
+    <div class="card">
+
+        <h3>{{ item.name }}</h3>
+
+        <p>
+            <b>Type:</b> {{ item.type }}
+        </p>
+
+        <p>
+            <b>Category:</b> {{ item.category }}
+        </p>
+
+        <p>
+            <b>Location:</b> {{ item.location }}
+        </p>
+
+        <p>{{ item.description }}</p>
+
+    </div>
+
+    {% endfor %}
+
 {% else %}
-<p>Nothing posted yet.</p>
-{% endfor %}
 
-<script>
-let currentFilter = "all";
+<p>No reported items yet.</p>
 
-function setFilter(type) {
-  currentFilter = type;
-  applyFilters();
-}
+{% endif %}
 
-function applyFilters() {
-  const q = document.getElementById("searchBox").value.toLowerCase();
-  document.querySelectorAll(".card").forEach(card => {
-    const typeOk = currentFilter === "all" || card.dataset.type === currentFilter;
-    const textOk = card.dataset.text.includes(q);
-    card.style.display = (typeOk && textOk) ? "" : "none";
-  });
-}
-document.getElementById("searchBox").addEventListener("input", applyFilters);
-
-function esc(s) {
-  const d = document.createElement("div");
-  d.textContent = s == null ? "" : s;
-  return d.innerHTML;
-}
-
-async function showMatches(id) {
-  const box = document.getElementById("matches-" + id);
-  box.textContent = "Searching...";
-  try {
-    const res = await fetch("/match/" + id);
-    const data = await res.json();
-    if (!data.matches || data.matches.length === 0) {
-      box.textContent = "No matches found.";
-      return;
-    }
-    box.innerHTML = data.matches.map(m =>
-      '<div class="match">✅ <b>' + esc(m.name) + '</b> at ' + esc(m.location) +
-      ' — <b>' + m.match_score + '% match</b><br><small>' + esc(m.reason) +
-      ' | Contact: ' + esc(m.contact) + '</small></div>'
-    ).join("");
-  } catch (err) {
-    box.textContent = "Could not load matches.";
-  }
-}
-</script>
 {% endblock %}

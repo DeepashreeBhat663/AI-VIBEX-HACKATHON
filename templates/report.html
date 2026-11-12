@@ -4,146 +4,55 @@
 
 <h2>Report an Item</h2>
 
-<form id="reportForm" enctype="multipart/form-data">
+<form action="/report" method="POST">
 
     <p>
-        <label>Type<br>
-            <select name="type" required>
-                <option value="">Select Type</option>
-                <option value="lost">Lost</option>
-                <option value="found">Found</option>
-            </select>
-        </label>
+        <label>Type</label>
+        <select name="type">
+            <option value="lost">Lost</option>
+            <option value="found">Found</option>
+        </select>
     </p>
 
     <p>
-        <label>Item name<br>
-            <input type="text" name="name" placeholder="Enter item name" required>
-        </label>
+        <input
+            name="name"
+            placeholder="Item Name"
+            required>
     </p>
 
     <p>
-        <label>Category<br>
-            <select name="category" required>
-                <option value="">Select Category</option>
-                <option>Bottle</option>
-                <option>Electronics</option>
-                <option>ID Card</option>
-                <option>Bag</option>
-                <option>Wallet</option>
-                <option>Glasses</option>
-                <option>Books</option>
-                <option>Other</option>
-            </select>
-        </label>
+        <select name="category">
+            <option>Bottle</option>
+            <option>Electronics</option>
+            <option>ID Card</option>
+            <option>Bag</option>
+            <option>Wallet</option>
+            <option>Books</option>
+        </select>
     </p>
 
     <p>
-        <label>Description<br>
-            <textarea name="description" rows="3"
-                placeholder="Describe the item..." required></textarea>
-        </label>
+        <textarea
+            name="description"
+            placeholder="Description"
+            required></textarea>
     </p>
 
     <p>
-        <label>Location<br>
-            <select name="location" required>
-                <option value="">Select Location</option>
-                <option>Library</option>
-                <option>Canteen</option>
-                <option>Main Block</option>
-                <option>Hostel</option>
-                <option>Ground</option>
-                <option>Parking</option>
-                <option>Auditorium</option>
-                <option>Other</option>
-            </select>
-        </label>
+        <select name="location">
+            <option>Library</option>
+            <option>Canteen</option>
+            <option>Main Block</option>
+            <option>Hostel</option>
+            <option>Ground</option>
+        </select>
     </p>
 
-    <p>
-        <label>Date<br>
-            <input type="date" name="date" required>
-        </label>
-    </p>
-
-    <p>
-        <label>Your phone or email<br>
-            <input type="text" name="contact"
-                placeholder="Enter contact details" required>
-        </label>
-    </p>
-
-    <p>
-        <label>Photo<br>
-            <input type="file" name="photo" accept="image/*">
-        </label>
-    </p>
-
-    <button type="submit" id="submitBtn">Submit</button>
+    <button type="submit">
+        Submit Report
+    </button>
 
 </form>
-
-<p id="message"></p>
-
-<script>
-
-const reportForm = document.getElementById("reportForm");
-
-reportForm.addEventListener("submit", async function(e) {
-
-    e.preventDefault();
-
-    const submitBtn = document.getElementById("submitBtn");
-    const message = document.getElementById("message");
-
-    submitBtn.disabled = true;
-    submitBtn.textContent = "Submitting...";
-    message.textContent = "";
-
-    try {
-
-        const response = await fetch("/report", {
-            method: "POST",
-            body: new FormData(reportForm)
-        });
-
-        const data = await response.json();
-
-        if (response.ok) {
-
-            message.textContent = "Item reported successfully!";
-            message.style.color = "green";
-
-            reportForm.reset();
-
-            setTimeout(function() {
-                window.location.href = "/";
-            }, 1200);
-
-        } else {
-
-            message.textContent = data.error || "Failed to submit item.";
-            message.style.color = "red";
-
-        }
-
-    } catch (error) {
-
-        console.error("Submission error:", error);
-
-        message.textContent = "Server connection failed. Please try again.";
-        message.style.color = "red";
-
-    } finally {
-
-        submitBtn.disabled = false;
-        submitBtn.textContent = "Submit";
-
-    }
-
-});
-
-</script>
 
 {% endblock %}
