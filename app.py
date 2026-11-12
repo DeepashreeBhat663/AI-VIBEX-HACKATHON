@@ -1,29 +1,28 @@
-from flask import render_template
-from lostfound import app   # the backend app with /report, /items, /search, /match
+from flask import render_template, send_from_directory
+from lostfound import app, connect_db, create_table, UPLOAD_FOLDER
+
+create_table()   # makes sure the items table exists
 
 
-# Pretend nobody is logged in (we have no login system)
-class GuestUser:
-    is_authenticated = False
-    username = "Guest"
-    name = "Guest"
-
-
-@app.context_processor
-def inject_user():
-    return {"current_user": GuestUser()}
-
-
-# Home page
+# Home page: shows all items
 @app.route("/")
 def home():
-    return render_template("index.html")
+    db = connect_db()
+    items = db.execute("SELECT * FROM items ORDER BY id DESC").fetchall()
+    db.close()
+    return render_template("index.html", items=items)
 
 
-# Login page (only works if templates/login.html exists)
-@app.route("/login")
-def login():
-    return render_template("login.html")
+# Report form page
+@app.route("/report-page")
+def report_page():
+    return render_template("report.html")
+
+
+# Lets the browser open uploaded photos
+@app.route("/uploads/<path:filename>")
+def uploaded_file(filename):
+    return send_from_directory(UPLOAD_FOLDER, filename)
 
 
 if __name__ == "__main__":
