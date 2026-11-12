@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h2>Matching Results</h2>
+
+{% if matches %}
+
+<p>✅ Possible matches found!</p>
+
+{% for match in matches %}
+
+<div class="match">
+
+    <h3>{{ match.title }}</h3>
+
+    <p>
+        <strong>Location:</strong>
+        {{ match.location }}
+    </p>
+
+    <p>
+        {{ match.description }}
+    </p>
+
+</div>
+
+{% endfor %}
+
+{% else %}
+
+<p>❌ No matching items found.</p>
+
+{% endif %}
+
+<a href="/">Back to Home</a>
+
+{% endblock %}
