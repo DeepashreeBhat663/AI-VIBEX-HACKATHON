@@ -1,12 +1,18 @@
-from flask import Flask
+from flask import render_template
+from lostfound import app   # the backend app with /report, /items, /search, /match
 
-app = Flask(__name__)
 
+# Home page
 @app.route("/")
 def home():
-    return "Campus Lost and Found is running!"
+    return render_template("index.html")
+
+
+# Login page (only works if templates/login.html exists)
+@app.route("/login")
+def login():
+    return render_template("login.html")
+
 
 if __name__ == "__main__":
     app.run(debug=True)
-
-    
