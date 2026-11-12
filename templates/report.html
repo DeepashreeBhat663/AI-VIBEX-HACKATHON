@@ -5,65 +5,67 @@
 
 <h2>Report an Item</h2>
 
-<form id="reportForm" enctype="multipart/form-data">
+<form action="/report" method="POST">
 
     <p>
-        <label>Type<br>
-            <select name="type" required>
-                <option value="">Select Type</option>
-                <option value="lost">Lost</option>
-                <option value="found">Found</option>
-            </select>
-        </label>
+        <label>Type</label>
+        <select name="type">
+            <option value="lost">Lost</option>
+            <option value="found">Found</option>
+        </select>
     </p>
 
     <p>
+<<<<<<< HEAD
         <label>Item name<br>
             <input type="text" name="name"
                    placeholder="Enter item name" required>
         </label>
+=======
+        <input
+            name="name"
+            placeholder="Item Name"
+            required>
+>>>>>>> 1db90739d8aa141a9515dfe37a792b10540ff3c2
     </p>
 
     <p>
-        <label>Category<br>
-            <select name="category" required>
-                <option value="">Select Category</option>
-                <option>Bottle</option>
-                <option>Electronics</option>
-                <option>ID Card</option>
-                <option>Bag</option>
-                <option>Wallet</option>
-                <option>Glasses</option>
-                <option>Books</option>
-                <option>Other</option>
-            </select>
-        </label>
+        <select name="category">
+            <option>Bottle</option>
+            <option>Electronics</option>
+            <option>ID Card</option>
+            <option>Bag</option>
+            <option>Wallet</option>
+            <option>Books</option>
+        </select>
     </p>
 
     <p>
+<<<<<<< HEAD
         <label>Description<br>
             <textarea name="description" rows="3"
                       placeholder="Describe the item..."
                       required></textarea>
         </label>
+=======
+        <textarea
+            name="description"
+            placeholder="Description"
+            required></textarea>
+>>>>>>> 1db90739d8aa141a9515dfe37a792b10540ff3c2
     </p>
 
     <p>
-        <label>Location<br>
-            <select name="location" required>
-                <option value="">Select Location</option>
-                <option>Library</option>
-                <option>Canteen</option>
-                <option>Main Block</option>
-                <option>Hostel</option>
-                <option>Ground</option>
-                <option>Parking</option>
-                <option>Auditorium</option>
-                <option>Other</option>
-            </select>
-        </label>
+        <select name="location">
+            <option>Library</option>
+            <option>Canteen</option>
+            <option>Main Block</option>
+            <option>Hostel</option>
+            <option>Ground</option>
+        </select>
     </p>
 
+<<<<<<< HEAD
     <p>
         <label>Date<br>
             <input type="date" name="date" required>
@@ -163,3 +165,12 @@ reportForm.addEventListener("submit", async function(e) {
 </script>
 
 {% endblock %}
+=======
+    <button type="submit">
+        Submit Report
+    </button>
+
+</form>
+
+{% endblock %}
+>>>>>>> 1db90739d8aa141a9515dfe37a792b10540ff3c2

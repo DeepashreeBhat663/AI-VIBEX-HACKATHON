@@ -2,40 +2,30 @@
 
 {% block content %}
 
-<div class="auth">
-    <h2>Login</h2>
+<h2>Login</h2>
 
-    <form method="POST">
+<form method="POST">
 
-        <label>Email</label>
-        <input type="email"
-               name="email"
-               placeholder="you@college.edu"
-               required>
+    <input
+        type="email"
+        name="email"
+        placeholder="Email"
+        required>
 
-        <br><br>
+    <br><br>
 
-        <label>Password</label>
-        <input type="password"
-               name="password"
-               placeholder="Password"
-               required>
+    <input
+        type="password"
+        name="password"
+        placeholder="Password"
+        required>
 
-        <br><br>
+    <br><br>
 
-        <button type="submit">
-            Login
-        </button>
+    <button type="submit">
+        Login
+    </button>
 
-    </form>
-
-    <p>
-        New User?
-        <a href="{{ url_for('register') }}">
-            Register Here
-        </a>
-    </p>
-
-</div>
+</form>
 
 {% endblock %}
