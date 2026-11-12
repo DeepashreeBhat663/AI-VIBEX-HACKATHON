@@ -1,15 +1,19 @@
 from flask import Flask, render_template, request, redirect, url_for
+from matcher import find_matches
 
 app = Flask(__name__)
 
-# Temporary storage
-items = []
+# Store all items temporarily
+all_items = []
 
 
 # HOME PAGE
 @app.route("/")
 def home():
-    return render_template("index.html", items=items)
+    return render_template(
+        "index.html",
+        items=all_items
+    )
 
 
 # LOGIN PAGE
@@ -32,37 +36,49 @@ def login():
 def register():
 
     if request.method == "POST":
-        name = request.form["name"]
-        email = request.form["email"]
-        password = request.form["password"]
-
-        print("Registered:", name)
-
         return redirect(url_for("login"))
 
     return render_template("register.html")
 
 
-# REPORT ITEM PAGE
+# REPORT PAGE
 @app.route("/report-page")
 def report_page():
     return render_template("report.html")
 
 
-# SUBMIT ITEM
+# SUBMIT REPORT
 @app.route("/report", methods=["POST"])
 def report():
 
     item = {
-        "title": request.form["title"],
-        "type": request.form["type"],
+        "id": len(all_items) + 1,
+        "type": request.form["type"].lower(),
+        "name": request.form["title"],
+        "category": request.form["category"],
+        "description": request.form["description"],
         "location": request.form["location"],
-        "description": request.form["description"]
+        "status": "open"
     }
 
-    items.append(item)
+    matches = find_matches(item, all_items)
 
-    return redirect(url_for("home"))
+    all_items.append(item)
+
+    return render_template(
+        "match_result.html",
+        item=item,
+        matches=matches
+    )
+
+
+# MATCH PAGE (optional direct access)
+@app.route("/match")
+def match():
+    return render_template(
+        "match_result.html",
+        matches=[]
+    )
 
 
 if __name__ == "__main__":
