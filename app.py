@@ -2,6 +2,18 @@ from flask import render_template
 from lostfound import app   # the backend app with /report, /items, /search, /match
 
 
+# Pretend nobody is logged in (we have no login system)
+class GuestUser:
+    is_authenticated = False
+    username = "Guest"
+    name = "Guest"
+
+
+@app.context_processor
+def inject_user():
+    return {"current_user": GuestUser()}
+
+
 # Home page
 @app.route("/")
 def home():
