@@ -1,0 +1,11 @@
+body{margin:0;font:15px/1.5 system-ui,sans-serif;background:#f6f5f1;color:#1d1d1b}
+header{display:flex;justify-content:space-between;padding:14px 20px;background:#fff;border-bottom:1px solid #e2e0d8}
+.brand{font-weight:700;text-decoration:none;color:inherit}
+nav{display:flex;gap:12px}
+main{max-width:900px;margin:0 auto;padding:20px 16px}
+.flash{background:#ffedd5;color:#c2410c;padding:8px 12px;border-radius:8px}
+.auth{max-width:380px;margin:30px auto;background:#fff;border:1px solid #e2e0d8;border-radius:14px;padding:24px}
+.auth form{display:flex;flex-direction:column;gap:14px;margin:18px 0}
+.auth label{display:flex;flex-direction:column;gap:4px;font-size:13px;color:#6b6a64}
+input{padding:9px 10px;border:1px solid #ddd;border-radius:8px;font:inherit}
+.btn{background:#2f5bd8;color:#fff;border:0;padding:10px 14px;border-radius:8px;cursor:pointer;font:inherit}

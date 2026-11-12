@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Lost &amp; Found</h2>
+{% for i in items %}
+  <p><b>{{ i.title }}</b> ({{ i.kind }}) at {{ i.location }}</p>
+{% else %}
+  <p>Nothing posted yet.</p>
+{% endfor %}
+{% endblock %}

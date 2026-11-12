@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Campus Lost &amp; Found</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <header>
+    <a class="brand" href="/">🎒 Campus Lost &amp; Found</a>
+    <nav>
+      {% if current_user.is_authenticated %}
+        <span>Hi, {{ current_user.name }}</span>
+        <a href="{{ url_for('logout') }}">Log out</a>
+      {% else %}
+        <a href="{{ url_for('login') }}">Log in</a>
+        <a href="{{ url_for('register') }}">Sign up</a>
+      {% endif %}
+    </nav>
+  </header>
+  <main>
+    {% for m in get_flashed_messages() %}<p class="flash">{{ m }}</p>{% endfor %}
+    {% block content %}{% endblock %}
+  </main>
+</body>
+</html>
