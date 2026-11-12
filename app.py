@@ -1,28 +1,68 @@
-from flask import render_template, send_from_directory
-from lostfound import app, connect_db, create_table, UPLOAD_FOLDER
+from flask import Flask, render_template, request, redirect, url_for
 
-create_table()   # makes sure the items table exists
+app = Flask(__name__)
+
+# Temporary storage
+items = []
 
 
-# Home page: shows all items
+# HOME PAGE
 @app.route("/")
 def home():
-    db = connect_db()
-    items = db.execute("SELECT * FROM items ORDER BY id DESC").fetchall()
-    db.close()
     return render_template("index.html", items=items)
 
 
-# Report form page
+# LOGIN PAGE
+@app.route("/login", methods=["GET", "POST"])
+def login():
+
+    if request.method == "POST":
+        email = request.form["email"]
+        password = request.form["password"]
+
+        print("Login:", email)
+
+        return redirect(url_for("home"))
+
+    return render_template("login.html")
+
+
+# REGISTER PAGE
+@app.route("/register", methods=["GET", "POST"])
+def register():
+
+    if request.method == "POST":
+        name = request.form["name"]
+        email = request.form["email"]
+        password = request.form["password"]
+
+        print("Registered:", name)
+
+        return redirect(url_for("login"))
+
+    return render_template("register.html")
+
+
+# REPORT ITEM PAGE
 @app.route("/report-page")
 def report_page():
     return render_template("report.html")
 
 
-# Lets the browser open uploaded photos
-@app.route("/uploads/<path:filename>")
-def uploaded_file(filename):
-    return send_from_directory(UPLOAD_FOLDER, filename)
+# SUBMIT ITEM
+@app.route("/report", methods=["POST"])
+def report():
+
+    item = {
+        "title": request.form["title"],
+        "type": request.form["type"],
+        "location": request.form["location"],
+        "description": request.form["description"]
+    }
+
+    items.append(item)
+
+    return redirect(url_for("home"))
 
 
 if __name__ == "__main__":
